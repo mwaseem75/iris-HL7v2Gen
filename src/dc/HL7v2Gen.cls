@@ -124,4 +124,38 @@ else:
     return ver
 }
 
+ClassMethod SendMessage(msg,ipadd,port) [ Language = python ]
+{
+import socket
+
+# TCP server address and port
+server_address = ('127.0.0.1', 7879)  # Example IP and port
+
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+try:
+    # Connect to the server
+    sock.connect(server_address)
+
+    # Send the HL7 message
+    sock.sendall(msg.encode('utf-8'))
+
+    ret = "HL7 message sent successfully!"
+except socket.error as e:
+    ret = f"Socket error occurred: {e}"
+except socket.timeout as e:
+    ret = f"Socket timeout: {e}"
+except AttributeError as e:
+    ret = f"Error in HL7 message construction: {e}"
+except Exception as e:
+    ret = f"An unexpected error occurred: {e}"
+
+finally:
+    # Close the connection
+    sock.close()
+    
+return ret    
+}
+
 }
