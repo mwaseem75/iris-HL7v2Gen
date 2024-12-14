@@ -6,20 +6,12 @@ IRIS-HL7v2Gen is a web application to generate HL7 test messages, validate HL7 m
 ## Application Layout
 ![image](https://github.com/user-attachments/assets/4e16a2a2-c864-451c-8d36-3864f7f7e4b3)
 
-
-## Online Demo
-https://irisfhirlab.demo.community.intersystems.com/csp/fhirlab/index.csp by using SuperUser | SYS
-
 ## Features
-* Add/Remove any Open FHIR Server.
-* Dynamically get the list of all FHIR resources.
-* View full details of the resources in JSON and Human readable format.
-* View Patient related resources.
-* Post basic Patient resources.
-* Post Patient Observation resources.
-* Transform FHIR message to HL7 V2.
-* Transform HL7 V2 message to FHIR.
-
+* Generate HL7 Test Messages
+* Validate HL7 message.
+* Construct HL7 Message Type Structure.
+* List down Message types and Segments.
+* Send message via TCPIP.
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
