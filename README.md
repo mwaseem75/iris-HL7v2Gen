@@ -1,10 +1,11 @@
 # Summary
-IRIS-FHIR-Lab is a web application that connects to any open FHIR server and gets all of its resources,  dynamically lists down resources, and displays its details both in JSON and human-readable format. The application also has the functionality to Create Patient/Patient observation resources, display Patient related resources, transform FHIR messages to HL7 V2 and HL7 V2 to FHIR messages 
+IRIS-HL7v2Gen is a web application to generate HL7 test messages, validate HL7 messages based on HL7 specifications. List down HL7 message types and segments. The application also has the functionality to Construct HL7 structure. 
 
 [![one](https://img.shields.io/badge/Platform-InterSystems%20IRIS-blue)](https://www.intersystems.com/data-platform/) [![one](https://img.shields.io/badge/WebFrameWork-CSP-Orange)](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=GCSP) [![one](https://img.shields.io/badge/Interoperability-HL7%20FHIR-yellow)](https://www.hl7.org/fhir/) [![one](https://img.shields.io/badge/Python%20Library-fhirpy-Maroon)](https://pypi.org/project/fhirpy/) [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)]() [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mwaseem75/iris-fhir-lab/blob/main/LICENSE)
 
 ## Application Layout
-![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/c71559ae-9ce7-46a3-ab99-1800ab47adbd)
+![image](https://github.com/user-attachments/assets/4e16a2a2-c864-451c-8d36-3864f7f7e4b3)
+
 
 ## Online Demo
 https://irisfhirlab.demo.community.intersystems.com/csp/fhirlab/index.csp by using SuperUser | SYS
