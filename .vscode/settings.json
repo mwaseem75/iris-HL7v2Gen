@@ -1,0 +1,26 @@
+{
+  "files.associations": {
+  
+      "Dockerfile*": "dockerfile",
+      "iris.script": "objectscript"
+    },
+  "objectscript.conn" :{
+    "ns": "USER",
+    "username": "SuperUser",
+    "password": "SYS",
+    "docker-compose": {
+      "service": "iris",
+      "internalPort": 52773
+    },
+    "links": {
+      "Web Application": "http://localhost:32783/csp/fhirlab/index.csp"
+    },
+    "active": false,
+    "server": "docker"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none"
+
+}

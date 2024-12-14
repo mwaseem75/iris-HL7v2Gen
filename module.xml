@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+  <Document name="iris-HL7v2Gen.ZPM">
+    <Module>
+      <Name>iris-HL7v2Gen</Name>
+      <Version>1.0.0</Version>
+      <Description>InterSystems HL7 V2 Generator application</Description>
+      <Keywords>HL7</Keywords>
+      <Packaging>module</Packaging>
+    <SourcesRoot>src</SourcesRoot>
+    <Resource Name="dc.PKG"/>
+    <FileCopy Name="python/" Target="${mgrdir}python/"/>   
+    <CSPApplication
+        Url="/csp/HL7v2Gen"
+        Path="/src/csp"
+        Directory="{$cspdir}/HL7v2Gen"
+        ServeFiles="1"
+        Recurse="1"
+        CookiePath="/csp/HL7v2Gen/" 
+        UseCookies="2"
+        MatchRoles=":{$dbrole}" 
+        PasswordAuthEnabled="1"
+        UnauthenticatedEnabled="0"
+       />    
+    
+    </Module>
+  </Document>
+</Export>

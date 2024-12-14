@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>IRIS HL7v2Gen</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="resources/img/icon.ico" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="resources/js/webfont.min.js">    </script>
+    
+    <script type="text/javascript">
+        WebFont.load({
+            google: {
+                "families": ["Lato:300,400,700,900"]
+            },
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands", "simple-line-icons"
+                ],
+                urls: ['resources/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" type="text/css" href="resources/css/atlantis.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">    
+    <link rel="stylesheet" type="text/css" href="resources/css/adminlte.min.css">
+    
+  <style>        
+        .app-bg-color {background-color: #25558f;
+        margin-left: 0px;
+        }     
+        .list-group-item{padding: 0.10rem 0.75rem }  
+        .list-group-item a {color :rgb(255, 255, 255) }  
+        .nav-pills>li>.nav-link {
+    		border: none;
+    		color:rgb(255, 255, 255);
+    		}  
+    	.dis{color:rgb(158 119 119);}
+  .nav-pills .nav-link:not(.active):hover{color:rgb(255,255,255)}
+
+.btn-primary {
+    background: #25558f !important;
+    border-color: #25558f !important;
+}
+
+
+
+  app-right-align {
+    text-align: right;
+    border: 1px solid #ddd; /* Optional: Add border for better visualization */
+    padding: 8px; /* Optional: Add padding for better spacing */
+  }	
+
+  ul, #myUL {
+  list-style-type: none;
+}
+
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+.caret {
+  display: inline;
+  border-top: none;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+    border-left: 0em;
+    border-right: 0em;
+    margin-left: 0px;
+    vertical-align: 0px;
+}
+
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.caret-box {
+  display: inline;
+  border-top: none;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+    border-left: 0em;
+    border-right: 0em;
+    margin-left: 9px;
+    vertical-align: 0px;
+}
+
+.caret-box::before {
+  content: "\25C7";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+.caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); 
+  transform: rotate(90deg);  
+}
+.nested {
+  display: none;
+}
+.active {
+  display: block;
+}
+
+.card-title{
+  color:white
+  }
+
+  textarea[readonly] {
+        border: 1px solid #ccc;     /* Gray border */
+        color: black;               /* Set text color to black */
+    }
+
+ </style>
+
+<script language="JavaScript">
+// Generate HL7 Message based on Version and Message Type
+function GenMessage()
+{
+  
+  var hl7VersionSelect = document.getElementById("hl7Version");
+  var hl7MessageType = document.getElementById("messageType");
+  
+  var ver = hl7VersionSelect.value
+  var mtype = hl7MessageType.value.split('-')[0]
+  if (mtype === "") {
+        alert("Please select message type first.");
+        return; // Stop further execution
+        }
+  var getMessage =  #server(..GenMessages(ver,mtype))#; 
+  var selectElement = document.getElementById("hl7Message"); 
+  selectElement.innerHTML = getMessage;
+}
+// Validate HL7 Message
+function ValMessage()
+{
+                                               
+  var hl7mes = document.getElementById("hl7Message").value;
+  if (hl7mes === "") {
+        alert("Please create or enter message first.");
+        return; // Stop further execution
+        }  
+  var getVal =  #server(..ValidateMessage(hl7mes))#;  
+  var selectElement = document.getElementById("hl7MessageB"); 
+  selectElement.innerHTML = getVal;
+}
+// Get HL7 Versions
+function LoadEvent()
+{
+     
+   var hl7VersionSelect = document.getElementById("hl7Version");
+   var hl7MessageType = document.getElementById("messageType");
+   
+// Get the selected option value
+   var vers = hl7VersionSelect.value;
+   vers = hl7VersionSelect.value; // Update the value when the selection changes     
+       var res =  #server(..GetMessageTypes(vers))#; 
+       var arr = res.split('|');    
+       var selectElement = document.getElementById("messageType"); 
+       selectElement.innerHTML = '';
+       arr.forEach(function(item) {
+                // Create a new option element
+                var option = document.createElement("option");
+                option.value = item; // Set the value of the option
+                option.textContent = item; // Set the text content of the option                
+                // Set default selected value to "ADT_A01"
+                //if (item === "ADT_A01-Admit/Visit Notification") {
+                //    option.selected = true; // Set this option as selected
+                //}
+                //alert(option)
+                // Append the option to the select element
+                selectElement.appendChild(option);
+            }); 
+       document.getElementById("messageType").value = ""           
+   
+   // Get Message type upon version number modification
+   hl7VersionSelect.addEventListener("change", function() {
+       vers = hl7VersionSelect.value; // Update the value when the selection changes     
+       var res =  #server(..GetMessageTypes(vers))#; 
+       var arr = res.split('|');    
+       var selectElement = document.getElementById("messageType"); 
+       // Reset Message segments
+       const ul = document.getElementById('myUL');        
+       ul.innerHTML = '';
+       selectElement.innerHTML = '';
+       arr.forEach(function(item) {
+                // Create a new option element
+                var option = document.createElement("option");
+                option.value = item; // Set the value of the option
+                option.textContent = item; // Set the text content of the option
+
+                // Set default selected value to "ADT_A01"
+                //if (item === "ADT_A01-Admit/Visit Notification") {
+                //    option.selected = true; // Set this option as selected
+                //}
+
+                // Append the option to the select element
+                selectElement.appendChild(option);
+            });
+         document.getElementById("messageType").value = ""            
+   });
+   
+
+   hl7MessageType.addEventListener("change", function() {
+       mtype = hl7MessageType.value; // Update the value when the selection changes     
+       mtype = mtype.split('-')[0]
+       
+       var res =  #server(..GetHL7Structure(mtype))#; 
+       const ul = document.getElementById('myUL');        
+       ul.innerHTML = '';
+       ul.innerHTML = res;
+
+       var toggler = document.getElementsByClassName("caret");
+   var i;
+   for (i = 0; i < toggler.length; i++) {
+     toggler[i].addEventListener("click", function() {
+       this.parentElement.querySelector(".nested").classList.toggle("active");
+       this.classList.toggle("caret-down");
+     });
+   }      
+       
+   });
+   
+   //HL7 structure treeview
+   var toggler = document.getElementsByClassName("caret");
+   var i;
+   for (i = 0; i < toggler.length; i++) {
+     toggler[i].addEventListener("click", function() {
+       this.parentElement.querySelector(".nested").classList.toggle("active");
+       this.classList.toggle("caret-down");
+     });
+   }
+}
+</script>
+</head>
+
+<body onload=LoadEvent();>
+
+<csp:class encoded=1 super="%CSP.Page,dc.HL7v2Gen">
+     	
+<div class="container-fluid">
+           <!-- NavBar -->
+            <nav class="navbar navbar-header navbar-expand-lg app-bg-color">               
+                    <ul class="nav nav-pills">
+                       		<li class="nav-item">
+							<a class="nav-link" href="/csp/fhirlab/index.csp"><i class="bi bi-house-door"></i> Home</a>
+						</li>
+										
+						<li class="nav-item">
+							<a class="nav-link" href="/csp/sys/%25CSP.Portal.Home.zen" target="_blank"><i class="bi bi-collection-fill"></i> Management Portal</a>
+						</li>
+										
+						<li class="nav-item">
+							<a class="nav-link" href="https://v2.hl7.org/conformance/HL7v2_Conformance_Methodology_R1_O1_Ballot_Revised_D9_-_September_2019_Introduction.html" target="_blank">HL7 Official website</a>
+						</li>	
+
+		<li class="nav-item">
+							<a class="nav-link" href="https://crs4.github.io/hl7apy/index.html" target="_blank"><i class="bi bi-collection"></i> HL7apy Home</a>
+						</li>	
+
+            
+                    </ul>                              
+            </nav>
+            <!-- End Navbar -->
+
+    <div class="container-fluid">
+       <div class="row" style = "background-color: aliceblue;">
+                    <div class="container mt-3">
+                        <div class="row">
+                            <div class="col">
+                            <!-- List Box 1 Caption: HL7 Version -->
+                            <div class="d-flex align-items-center">
+                                <label for="hl7Version" class="form-label" style="white-space: nowrap;margin:5px">HL7 Version</label>
+                                <select id="hl7Version" class="form-select form-control"  aria-label="HL7 Version">
+                                    <option selected>2.5</option>
+                                    <option value="2.1">2.1</option>
+                                    <option value="2.2">2.2</option>
+                                    <option value="2.3">2.3</option>
+                                    <option value="2.3.1">2.3.1</option>
+                                    <option value="2.4">2.4</option>
+                                    <option value="2.5">2.5</option>
+                                    <option value="2.5.1">2.5.1</option>
+                                    <option value="2.6">2.6</option>
+                                    <option value="2.7">2.7</option>
+                                    <option value="2.8">2.8</option>
+                                    <option value="2.8.1">2.8.1</option>
+                                    <option value="2.8.2">2.8.2</option>
+                                </select>
+                              </div>  
+                            </div>
+                            <div class="col">
+                            <!-- List Box 2 Caption: Message Type -->
+                            <div class="d-flex align-items-center">
+                            <label for="messageType" class="form-label" style="white-space: nowrap; margin:5px">Message Type</label>
+                            <select id="messageType" class="form-select form-control" aria-label="Message Type">
+                            </select>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+    </div>
+  <div class="container-fluid">
+    <div class="row">          
+        <div class="col-lg-4 col-4">            
+                <div class="card card-widget widget-user-2" style="margin-top: 10px;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header app-bg-color" style="padding:0.5rem; margin-left: 0px;">                                    
+                        <!-- /.widget-user-image -->
+                        <h6 class="text-center font-weight-bold card-title"><i class="bi bi-bar-chart-steps"></i> HL7 Message Structure</h6>
+                    </div>                            
+                  
+                    <ul id="myUL" style="margin-left:-35px">                    
+                    </ul>
+                
+                 </div>  <!-- /.card -->     
+        </div> <!-- col-lg-2 col-2         -->
+        <div class="col-lg-8 col-8">
+			               <div class="card card-widget widget-user-2" style="margin-top: 10px;">                    
+                     <div class="widget-user-header app-bg-color" style="padding:0.5rem; margin-left: 0px;">                                                                                                            
+                        <h6 class="text-center font-weight-bold card-title"><i class="bi bi-chat-square-text"></i> HL7 Message</h6>
+                    </div>                                        
+                    <div class="card-body" style="padding:0px">
+                      <textarea id="hl7Message" class="form-control message-box" rows="12"></textarea>
+                      <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 5px" onclick="GenMessage()"> <i class="bi bi-pencil-square"></i> Generate Test Message</button>
+                      <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 0px" onclick="ValMessage()"> <i class="bi bi-magic"></i> Validate Message</button>
+                      <textarea readonly id="hl7MessageB" class="form-control message-box " rows="5"></textarea>
+                    </div>
+                                             
+                                
+                  </div>  
+            </div>  <!-- /.container -->
+          </div> <!-- col-lg-10 col-10         -->    
+    </div> <!-- /row -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <nav class="pull-left">
+                <ul class="nav">
+                    <li class="nav-item">
+                        2024, IRIS-HL7v2Gen
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+</div> <!-- Main container-->
+
+
+        <!--   Core JS Files   -->
+    <script src="resources/js/jquery.min.js"></script>
+		<script src="resources/js/jquery-ui.min.js"></script>
+		
+		<script src="resources/js/popper.min.js"></script>
+        <script src="resources/js/bootstrap.min.js"></script>
+        <!-- jQuery UI -->
+        
+        <script src="resources/js/jquery.ui.touch-punch.min.js"></script>
+        <!-- jQuery Scrollbar -->
+        <script src="resources/js/jquery.scrollbar.min.js"></script>
+        <!-- Atlantis JS -->
+        <script src="resources/js/atlantis.min.js"></script>
+		<!-- Script Files -->
+		
+		<script src="resources/js/vfs_fonts.js"></script>
+		<script src="resources/js/buttons.html5.min.js"></script>
+		
+        
+
+</body>
+</html>
