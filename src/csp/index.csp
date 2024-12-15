@@ -174,7 +174,7 @@ function SendMessage()
   var selectElementGen = document.getElementById("hl7Message"); 
   let hl7msg = getMessage.split("RETVAL")[0].trim(); // Everything before "RETVAL"
   let retval = getMessage.split("RETVAL")[1].trim();  // Everything after "RETVAL"
-  selectElementGen.value = getMessage;
+  selectElementGen.value = hl7msg;
   var selectElementSend = document.getElementById("hl7MessageB"); 
   selectElementSend.value = retval;
   
@@ -193,24 +193,6 @@ function ValMessage()
   var getVal =  #server(..ValidateMessage(hl7mes))#;  
   var selectElementVal = document.getElementById("hl7MessageB"); 
   selectElementVal.value = getVal;
-  this.blur()
-  document.getElementById('hl7Message').focus();
-}
-
-// Send Message to Production
-function SendMessageOld()
-{
-                                               
-  var hl7mes = document.getElementById("hl7Message").value;
-  if (hl7mes === "") {
-        alert("Please create or enter message first.");
-        return; // Stop further execution
-        }  
-  var ipadd = "localhost" 
-  var port = "7878"     
-  var getVal =  #server(..SendMessage(hl7mes,ipadd,port))#;  
-  var selectElementSend = document.getElementById("hl7MessageB"); 
-  selectElementSend.value = getVal;
   this.blur()
   document.getElementById('hl7Message').focus();
 }
@@ -335,7 +317,7 @@ function LoadEvent()
             <!-- End Navbar -->
 
     <div class="container-fluid">
-       <div class="row" style = "background-color: aliceblue;">
+       <div class="row" style = "background-color: #f3f6f8;">
                     <div class="container-fluid mt-3">
                         <div class="row">
                             <div class="col-lg-4 col-4"> 
@@ -380,12 +362,13 @@ function LoadEvent()
                      <div class="widget-user-header app-bg-color" style="padding:0.5rem; margin-left: 0px;">                                                                                                            
                         <h6 class="text-center font-weight-bold card-title"><i class="bi bi-chat-square-text"></i> HL7 Message</h6>
                     </div>                                        
-                    <div class="card-body" style="padding:0px">
+                    <div class="card-body" style="padding:0px;">
                       <textarea readonly id="hl7Message" class="form-control message-box" rows="20"></textarea>
-                      <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 5px" onclick="GenMessage()"> <i class="bi bi-pencil-square"></i> Generate Test Message</button>
-                      <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 0px" onclick="ValMessage()"> <i class="bi bi-magic"></i> Validate Message</button>
+                      <div class="row" style="background:#f3f6f8;">
+                      <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 10px" onclick="GenMessage()"> <i class="bi bi-pencil-square"></i> Generate Test Message</button>
+                      <button type="button" class="btn btn-primary" style="margin: 5px 5px 5px 5px" onclick="ValMessage()"> <i class="bi bi-magic"></i> Validate Message</button>
                       <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 0px" onclick="SendMessage()"> <i class="bi bi-send-check"></i> Send Message To Production</button>
-                      
+                      </div>
 
                       <textarea readonly id="hl7MessageB" class="form-control message-box " rows="8"></textarea>
                     </div>
