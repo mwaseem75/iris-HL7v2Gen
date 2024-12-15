@@ -12,7 +12,7 @@ IRIS-HL7v2Gen is a web application designed to generate HL7 test messages, valid
 * Construct HL7 Message Type Structures
 * Send Messages via TCP/IP
 * Currently Supports HL7 Version 2.5
-* Generate Test Messages for 206 Message Types
+* Generate Test Messages for 205 Message Types
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
