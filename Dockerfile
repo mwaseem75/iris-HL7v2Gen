@@ -1,17 +1,24 @@
-ARG IMAGE=intersystemsdc/irishealth-community:preview
-FROM $IMAGE 
+ARG IMAGE=intersystemsdc/iris-community
+#ARG IMAGE=store/intersystems/irishealth-community:2021.2.0.649.0
+#ARG IMAGE=intersystemsdc/irishealth-community:2020.3.0.221.0-zpm
+#ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:2021.2.0.651.0
+FROM $IMAGE
 
-#WORKDIR /home/irisowner/irisdev
-WORKDIR /opt/irisapp
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
+USER root   
+        
+WORKDIR /opt/irisbuild
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisbuild
+USER ${ISC_PACKAGE_MGRUSER}
 
-
-COPY src src
-COPY python python
+#COPY  Installer.cls .
+COPY  python python
+COPY  src src
 COPY module.xml module.xml
+COPY iris.script iris.script
 
-# run iris and initial 
-RUN --mount=type=bind,src=.,dst=. \
-    iris start IRIS && \
-	iris session IRIS < iris.script && \
-    iris stop IRIS quietly
+RUN pip3 install fhirpy
+RUN pip3 install tabulate
+
+RUN iris start IRIS \
+	&& iris session IRIS < iris.script \
+    && iris stop IRIS quietly
