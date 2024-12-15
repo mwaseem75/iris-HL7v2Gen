@@ -417,7 +417,5 @@ function LoadEvent()
 		<script src="resources/js/vfs_fonts.js"></script>
 		<script src="resources/js/buttons.html5.min.js"></script>
 		
-        
-
-</body>
+  </body>
 </html>
