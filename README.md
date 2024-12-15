@@ -58,7 +58,7 @@ Click the "Validate Message" button
 
 ### Explore the Structure of the Message
 The application will construct the message structure based on HL7 specifications
-![image](https://github.com/user-attachments/assets/c11dfc90-f4ab-40e4-ab61-f204c1ca43c4)
+![image](https://github.com/user-attachments/assets/d76abb0c-1213-46fa-9461-1250a31c3392)
 
 ### Send Message to Production
 Click on "View Production" to open the production page. Make sure the production is started
