@@ -273,7 +273,6 @@ hl7_segment_names = {
     'RSB': 'Resource Batch',
     'SSM': 'Scheduling Status Message',
     'SSF': 'Scheduled Status Follow-up',
-    'SSM': 'Service Scheduling Message',
     'TQ1': 'Timing/Quantity Information',
     'TQ2': 'Additional Timing/Quantity Information',
     'ZDS': 'Device Segment',
