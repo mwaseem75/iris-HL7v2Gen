@@ -11,6 +11,7 @@ IRIS-HL7v2Gen is a web application designed to generate HL7 test messages, valid
 * Validate HL7 Messages
 * Construct HL7 Message Type Structures
 * Send Messages via TCP/IP
+* Generate a Test Message by Invoking a Class Method
 * Currently Supports HL7 Version 2.5
 * Generate Test Messages for 205 Message Types
 
@@ -68,6 +69,14 @@ Click on "Send message to production" button from the application
 Select business service "HL7TcpService" and Open message viewer 
 ![image](https://github.com/user-attachments/assets/b1c6c8bc-c6cd-4697-9e80-4b046081a214)
 ![image](https://github.com/user-attachments/assets/e9894c82-c3e4-46a0-b7e5-15c50ad3714b)
+
+### Generate a Test Message by Invoking a Class Method
+Connect to the IRIS Terminal, execute the GenMessage function of the dc.HL7v2Gen class, and pass the desired HL7 message type
+```
+set mes = ##class(dc.HL7v2Gen).GenMessage("ADT_A01")
+write mes
+```
+![image](https://github.com/user-attachments/assets/997c239e-618c-4a94-8e09-aa91306dd334)
 
 
 Thanks
