@@ -1,8 +1,6 @@
-ARG IMAGE=intersystemsdc/iris-community
-#ARG IMAGE=store/intersystems/irishealth-community:2021.2.0.649.0
-#ARG IMAGE=intersystemsdc/irishealth-community:2020.3.0.221.0-zpm
-#ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:2021.2.0.651.0
-FROM $IMAGE
+ARG IMAGE=intersystemsdc/irishealth-community
+ARG VERSION=2024.3-zpm
+FROM $IMAGE:$VERSION
 
 USER root   
         
