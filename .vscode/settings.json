@@ -15,7 +15,7 @@
     "links": {
       "Web Application": "http://localhost:32783/csp/fhirlab/index.csp"
     },
-    "active": false,
+    "active": true,
     "server": "local"
   },
   "[python]": {

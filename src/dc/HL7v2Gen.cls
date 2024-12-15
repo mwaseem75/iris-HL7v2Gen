@@ -3,7 +3,7 @@ Class dc.HL7v2Gen Extends %SwizzleObject
 
 // Function to generate HL7 message
 
-ClassMethod GenMessage(ver, mtype, send = 0, host = "None", port = "None") [ Language = python ]
+ClassMethod GenMessage(mtype, ver = "2.5", send = 0, host = "None", port = "None") [ Language = python ]
 {
 
 from hl7apy.parser import parse_message
@@ -21,8 +21,10 @@ from faker import Faker
 fake = Faker()
 
 mtype = mtype
-version = ver  
-
+version = ver
+#Crrently only support Ver 2.5  
+if version != '2.5':
+    return "Crrently only support Ver 2.5"
 if version in cr.SUPPORTED_LIBRARIES:      
     message_with_descriptions = []
     module_name = cr.SUPPORTED_LIBRARIES[version]
@@ -106,8 +108,7 @@ def get_val(data_type=None,table=None):
     else:
         # Default case for unsupported datatypes
         return "UNKNOWN"
-################################################
-#get all the segments first
+
 #get all the segments first
 for index, elementM in enumerate(segmentsM, start=1):
     segment_nameM, segment_definition, cardinality, segment_type = elementM
@@ -143,29 +144,9 @@ for index, elementM in enumerate(segmentsM, start=1):
                                     html_string += f'{fs}'+str(get_val(segment_definition[2]))              
                                 elif cardinality[0] == 0:
                                     html_string += f'{fs}'
-                                elif cardinality[0] == 1:
-                                    # if segment_definition[2] == "TS":
-                                    #     html_string += f'{fs}'+str(get_val(segment_definition[2]))
-                                    # elif segment_definition[2] == "PT":
-                                    #     html_string += f'{fs}'+str(get_val(segment_definition[2]))    
-                                    # elif segment_definition[2] == "CX":
-                                    #     html_string += f'{fs}'+str(get_val(segment_definition[2]))      
-                                    # else:
-                                    html_string += f'{fs}'+str(get_val(segment_definition[2]))           
-                                    # html_string += f'<li><span class="caret">{sname}</span>\n'                            
-                                    # html_string += f'<ul class="nested">\n'    
-                                    # segmentsC = segment_definition[1]       
-                                    # for counter,elementC in enumerate(segmentsC, start=1):
-                                    #     segment_nameC, segment_definition, cardinalitySC, segment_type = elementC
-                                    #     sname = segment_name+"_"+str(counter)+" - "+segment_definition[3].replace("_", " ").title()+" ("+segment_definition[2]+")"
-                                    #     if cardinality[0] == 1:
-                                    #         html_string += f'<li><span class="caret-box">{sname}</li>\n'
-                                    #     else:
-                                    #         html_string += f'<li><span class="caret-box dis">{sname}</li>\n'
-                                    #     html_string += '</ul></li>'                                            
-                        else:    
-                            
-                            
+                                elif cardinality[0] == 1:                                    
+                                    html_string += f'{fs}'+str(get_val(segment_definition[2]))                                                                                          
+                        else: 
                             if segment_definition[3] == 'EVENT_TYPE_CODE':
                                 html_string += f'{fs}'+mtype.split('_')[1]
                             elif segment_nameM != "MdSH" and segment_definition[4] and segment_definition[4] in TABLES:
@@ -185,6 +166,7 @@ for index, elementM in enumerate(segmentsM, start=1):
                                         html_string += f'{fs}'+str(get_val(segment_definition[2]))                                                 
                                     else:
                                         html_string += f'{fs}'
+    #IF segment type is Group then again iterate
     elif segment_type == "GRP":
         if cardinality[0] == 1:
             sequence_type, segmentsG = segment_definition           
@@ -220,6 +202,7 @@ for index, elementM in enumerate(segmentsM, start=1):
                                                         html_string += f'{fs}'+str(get_val(segment_definition[2]))    
                                                 elif cardinality[0] == 0:                                                                                                                   
                                                     html_string += f'{fs}'
+                #IF segment type is Group then again iterate
                 elif segment_type == "GRP":
                     if cardinality[0] == 1:
                         sequence_type, segmentsG = segment_definition           
@@ -260,16 +243,16 @@ for index, elementM in enumerate(segmentsM, start=1):
     html_string=''                          
                 
 #html_string += '</ul>'        
-s = ''
-for x in segments:
-  s += x
+finalMessage = ''
+for seg in segments:
+  finalMessage += seg
 
-message = parse_message(s)
-###################################
-#Send message through Production
+message = parse_message(finalMessage)
+#Same function is used in generation and send to production. Return in case of Generation only
 if send == 0:
     return(message.to_er7())
 
+#Send message to production
 hl7_message = message.to_er7()
 
 # TCP server address and port
@@ -283,8 +266,7 @@ try:
 
     # Send the HL7 message
     sock.sendall(hl7_message.encode('utf-8'))
-    # Copy the value to clipboard
-      
+         
     hl7_message = hl7_message + "RETVAL HL7 message sent successfully!"
 except socket.error as e:
     hl7_message = hl7_message + "RETVAL"+ f"Socket error occurred: {e}"
@@ -391,12 +373,14 @@ if version in cr.SUPPORTED_LIBRARIES:
     message_types = list(MESSAGES.keys())
     print(message_types)
     if 'ACK' in message_types:
+        #Move ACK message at the end
         message_types.remove('ACK')  # Remove 'ACK' from its current position
         message_types.append('ACK')  # Append 'ACK' to the end
     
     for message in message_types:
         description = hl7_message_types.get(message, "Description not found")  # Get description from dictionary
-        message_with_descriptions.append(f"{message}-{description}")
+        if description != "Description not found":
+            message_with_descriptions.append(f"{message}-{description}")
     
     result = '|'.join(message_with_descriptions)
     return result

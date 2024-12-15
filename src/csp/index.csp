@@ -147,7 +147,7 @@ function GenMessage()
         return; // Stop further execution
         }
     
-  var getMessage =  #server(..GenMessage(ver,mtype))#; 
+  var getMessage =  #server(..GenMessage(mtype,ver))#; 
   
   var selectElementGen = document.getElementById("hl7Message"); 
   selectElementGen.value = getMessage;
@@ -169,7 +169,7 @@ function SendMessage()
         return; // Stop further execution
         }
     
-  var getMessage =  #server(..GenMessage(ver,mtype,1,"localhost","7878"))#; 
+  var getMessage =  #server(..GenMessage(mtype,ver,1,"localhost","7878"))#; 
   
   var selectElementGen = document.getElementById("hl7Message"); 
   let hl7msg = getMessage.split("RETVAL")[0].trim(); // Everything before "RETVAL"
