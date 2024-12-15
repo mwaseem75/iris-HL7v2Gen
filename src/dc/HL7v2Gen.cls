@@ -220,7 +220,41 @@ for index, elementM in enumerate(segmentsM, start=1):
                                                         html_string += f'{fs}'+str(get_val(segment_definition[2]))    
                                                 elif cardinality[0] == 0:                                                                                                                   
                                                     html_string += f'{fs}'
-                            
+                elif segment_type == "GRP":
+                    if cardinality[0] == 1:
+                        sequence_type, segmentsG = segment_definition           
+                        for elementG in segmentsG:
+                            #sequence_type, segmentsG1 = elementG
+                            segment_name, segment_definition, cardinality, segment_type = elementG
+                            if segment_type == "SEG":
+                                if cardinality[0] == 1:
+                                        html_string += f'{segment_name}'
+                                        sequence_type, segmentsS = segment_definition                
+                                        #FIELD
+                                        if len(segmentsS) > 0:                           
+                                            for elementS in segmentsS: 
+                                                    segment_name, segment_definition, cardinality, segment_type = elementS   
+                                                    sname = segment_name+" - "+segment_definition[3].replace("_", " ").title()+" ("+segment_definition[2]+")"
+                                                    #COMPONENT
+                                                    if segment_definition[0] == "sequence":
+                                                        if  segment_definition[4] and segment_definition[4] in TABLES:
+                                                            html_string += f'{fs}'+str(get_val(table=segment_definition[4]))
+                                                        else:
+                                                            if segment_definition[2] == "XAD":
+                                                                html_string += f'{fs}'+str(get_val(segment_definition[2]))           
+                                                            elif cardinality[0] == 0:
+                                                                html_string += f'{fs}'
+                                                            elif cardinality[0] == 1:                                                
+                                                                html_string += f'{fs}'+str(get_val(segment_definition[2]))                                                           
+                                                    else:    
+                                                        if segment_nameM != "MdSH" and segment_definition[4] and segment_definition[4] in TABLES:
+                                                                html_string += f'{fs}'+str(get_val(table=segment_definition[4]))
+                                                        else:        
+                                                            if cardinality[0] == 1:                                                                                         
+                                                                if segment_definition[2] == "ST":
+                                                                    html_string += f'{fs}'+str(get_val(segment_definition[2]))    
+                                                            elif cardinality[0] == 0:                                                                                                                   
+                                                                html_string += f'{fs}'            
     html_string += '\r'            
     segments.append(html_string)
     html_string=''                          
