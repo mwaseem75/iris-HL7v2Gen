@@ -3,24 +3,268 @@ Class dc.HL7v2Gen Extends %SwizzleObject
 
 // Function to generate HL7 message
 
-ClassMethod GenMessages(ver, mtype) [ Language = python ]
+ClassMethod GenMessage(ver, mtype, send = 0, host = "None", port = "None") [ Language = python ]
 {
-    #; from hl7apy.core import Message
-    #; m = Message(mtype,version=ver)
-    #; return m.to_er7()
+
 from hl7apy.parser import parse_message
+import textwrap,random
+from hl7apy.core import Message
+import datetime,string
+import importlib
+import hl7apy as cr
+import socket
+from hl7apy.exceptions import HL7apyException
+from faker import Faker
 
-msh = "MSH|^~\&|GHH_ADT||||20080115153000||ADT^A01^ADT_A01|0123456789|P|2.5||||AL\r"
-evn = "EVN||20080115153000||AAA|AAA|20080114003000\r"
-pid = "PID|1||566-554-3423^^^GHH^MR||EVERYMAN^ADAM^A|||M|||2222 HOME STREET^^ANN ARBOR^MI^^USA||555-555-2004~444-333-222|||M\r"
-nk1 = "NK1|1|NUCLEAR^NELDA^W|SPO|2222 HOME STREET^^ANN ARBOR^MI^^USA\r"
-pv1 = "PV1|1|I|GHH PATIENT WARD|U||||^SENDER^SAM^^MD|^PUMP^PATRICK^P|CAR||||2|A0|||||||||||||||||||||||||||||2008\r"
-in1 = "IN1|1|HCID-GL^GLOBAL|HCID-23432|HC PAYOR, INC.|5555 INSURERS CIRCLE^^ANN ARBOR^MI^99999^USA||||||||||||||||||||||||||||||||||||||||||||444-33-3333"
 
-s = msh + evn + pid + nk1 + pv1 + in1
+# Initialize Faker instance
+fake = Faker()
+
+mtype = mtype
+version = ver  
+
+if version in cr.SUPPORTED_LIBRARIES:      
+    message_with_descriptions = []
+    module_name = cr.SUPPORTED_LIBRARIES[version]
+    lib = importlib.import_module(module_name)
+    #get tables reference
+    try:
+        TABLES = lib.tables.TABLES
+    except:
+        TABLES = {}    
+
+m = Message(mtype,version=ver)
+sequence_type, segmentsM = m.reference
+#html_string = textwrap.dedent('''''')
+html_string = ''
+segments = []
+fs = '|'
+##########################################
+# Function to generate random values for different HL7 data types
+def get_val(data_type=None,table=None):
+    if table:
+        # Get the values for the key 'HL70002'
+        table_values = TABLES[table][1]
+        return random.choice(table_values)
+               
+
+    if data_type == "ST":
+        # ST - String, usually a simple text field
+        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))  # Random alphanumeric string of length 8
+    elif data_type == "SI":
+        # SI - Sequence ID, typically a numeric value
+        return str(random.randint(1, 100))  # Generates a random integer as string
+    elif data_type == "CX":
+        # SI - Sequence ID, typically a numeric value
+        return str(random.randint(100000, 999999))  # Generates a random integer as string
+    elif data_type == "TS":
+        return datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    elif data_type == "DT":
+        # DT - Date, in the format YYYYMMDD
+        return datetime.now().strftime("%Y%m%d")  # Current date in YYYYMMDD
+    elif data_type == "TM":
+        # TM - Time, in the format HHMMSS.sss
+        return datetime.now().strftime("%H%M%S")  # Current time in HHMMSS
+    elif data_type == "NM":
+        # NM - Numeric, can be used for numbers like price or quantity
+        return str(round(random.uniform(1, 1000), 2))  # Generates a random float
+    elif data_type == "XCN":
+        # XCN - Extended Composite Name, which has multiple components
+        first_name = fake.first_name()
+        last_name = fake.last_name()
+        return f"{first_name}^{last_name}^{random.randint(100000, 999999)}"  # Format as Composite Name with ID
+    elif data_type == "XCN":
+        # XCN - Extended Composite Name, which has multiple components
+        first_name = fake.first_name()
+        last_name = fake.last_name()
+        return f"{first_name}^{last_name}^{random.randint(100000, 999999)}"  # Format as Composite Name with ID
+    elif data_type == "XPN":
+        # XCN - Extended Composite Name, which has multiple components       
+        first_name = fake.first_name()
+        given_name = fake.first_name()
+        last_name =  fake.last_name()
+        return f"{first_name}^{given_name}^{last_name}"
+    elif data_type == "XAD":
+        # XAD - Extended Address, typically contains multiple parts (street, city, etc.)
+        street = fake.street_address()
+        city = fake.city() 
+        state = fake.state() 
+        #zip_code = fake.zipcode()
+        return f"{street}^{city}^{state}"
+    elif data_type == "CE":
+        # CE - Coded Element, typically a code with description
+        code = str(random.randint(100, 999))  # Random 3-digit code
+        description = ''.join(random.choices(string.ascii_uppercase, k=5))  # Random description
+        return f"{code}^{description}"
+    elif data_type == "DTM":
+        # DTM - Date/Time, in the format YYYYMMDDHHMMSS
+        return datetime.now().strftime("%Y%m%d%H%M%S")  # Current date and time in YYYYMMDDHHMMSS
+    elif data_type == "PT":
+        # PT - Period (Time period), expressed as <number><unit>        
+        unit = random.choice(['P']) 
+        return f"{unit}" 
+    else:
+        # Default case for unsupported datatypes
+        return "UNKNOWN"
+################################################
+#get all the segments first
+#get all the segments first
+for index, elementM in enumerate(segmentsM, start=1):
+    segment_nameM, segment_definition, cardinality, segment_type = elementM
+    #SEGMENT
+    if segment_type == "SEG":
+        if cardinality[0] == 1:
+            if segment_nameM != 'MSH':
+                html_string += f'{segment_nameM}'
+            else:
+                html_string += f'{segment_nameM}'     
+            sequence_type, segmentsS = segment_definition
+            #FIELD
+            if len(segmentsS) > 0:                           
+                for elementS in segmentsS: 
+                        segment_name, segment_definition, cardinality, segment_type = elementS   
+                        sname = segment_name+" - "+segment_definition[3].replace("_", " ").title()+" ("+segment_definition[2]+")"
+                        #COMPONENT
+                        if segment_nameM == "MSH" and int(segment_name.split('_')[1]) > 15:                        
+                            html_string += f'{fs}'
+                        elif segment_definition[0] == "sequence":
+                            if segment_definition[4] and segment_definition[4] in TABLES:
+                                html_string += f'{fs}'+str(get_val(table=segment_definition[4]))
+                            else:
+                                if segment_definition[3] == "SENDING_APPLICATION":
+                                    html_string += f'{fs}SendingApp'
+                                elif segment_definition[3] == "RECEIVING_APPLICATION":
+                                    html_string += f'{fs}ReceivingApp'
+                                elif segment_definition[3] == "MESSAGE_TYPE":    
+                                    html_string += f'{fs}{mtype.replace("_", "^")}'
+                                elif segment_definition[3] == "VERSION_ID":    
+                                    html_string += f'{fs}{ver}'                                      
+                                elif segment_definition[2] == "XAD":
+                                    html_string += f'{fs}'+str(get_val(segment_definition[2]))              
+                                elif cardinality[0] == 0:
+                                    html_string += f'{fs}'
+                                elif cardinality[0] == 1:
+                                    # if segment_definition[2] == "TS":
+                                    #     html_string += f'{fs}'+str(get_val(segment_definition[2]))
+                                    # elif segment_definition[2] == "PT":
+                                    #     html_string += f'{fs}'+str(get_val(segment_definition[2]))    
+                                    # elif segment_definition[2] == "CX":
+                                    #     html_string += f'{fs}'+str(get_val(segment_definition[2]))      
+                                    # else:
+                                    html_string += f'{fs}'+str(get_val(segment_definition[2]))           
+                                    # html_string += f'<li><span class="caret">{sname}</span>\n'                            
+                                    # html_string += f'<ul class="nested">\n'    
+                                    # segmentsC = segment_definition[1]       
+                                    # for counter,elementC in enumerate(segmentsC, start=1):
+                                    #     segment_nameC, segment_definition, cardinalitySC, segment_type = elementC
+                                    #     sname = segment_name+"_"+str(counter)+" - "+segment_definition[3].replace("_", " ").title()+" ("+segment_definition[2]+")"
+                                    #     if cardinality[0] == 1:
+                                    #         html_string += f'<li><span class="caret-box">{sname}</li>\n'
+                                    #     else:
+                                    #         html_string += f'<li><span class="caret-box dis">{sname}</li>\n'
+                                    #     html_string += '</ul></li>'                                            
+                        else:    
+                            
+                            
+                            if segment_definition[3] == 'EVENT_TYPE_CODE':
+                                html_string += f'{fs}'+mtype.split('_')[1]
+                            elif segment_nameM != "MdSH" and segment_definition[4] and segment_definition[4] in TABLES:
+                                    html_string += f'{fs}'+str(get_val(table=segment_definition[4]))
+                            else:        
+                                if cardinality[0] == 1:    
+                                    if segment_definition[3] == 'FIELD_SEPARATOR':
+                                        html_string += f'{fs}'
+                                    elif segment_definition[3] == 'ENCODING_CHARACTERS':    
+                                        html_string += f'^~\\&'
+                                    elif segment_definition[3] == "VERSION_ID":    
+                                        html_string += f'{fs}{ver}'                                          
+                                    elif segment_definition[2] == "ST":
+                                        html_string += f'{fs}'+str(get_val(segment_definition[2]))                                        
+                                elif cardinality[0] == 0:  
+                                    if segment_definition[2] == "XAD":
+                                        html_string += f'{fs}'+str(get_val(segment_definition[2]))                                                 
+                                    else:
+                                        html_string += f'{fs}'
+    elif segment_type == "GRP":
+        if cardinality[0] == 1:
+            sequence_type, segmentsG = segment_definition           
+            for elementG in segmentsG:
+                #sequence_type, segmentsG1 = elementG
+                segment_name, segment_definition, cardinality, segment_type = elementG
+                if segment_type == "SEG":
+                    if cardinality[0] == 1:
+                            html_string += f'{segment_name}'
+                            sequence_type, segmentsS = segment_definition                
+                            #FIELD
+                            if len(segmentsS) > 0:                           
+                                for elementS in segmentsS: 
+                                        segment_name, segment_definition, cardinality, segment_type = elementS   
+                                        sname = segment_name+" - "+segment_definition[3].replace("_", " ").title()+" ("+segment_definition[2]+")"
+                                        #COMPONENT
+                                        if segment_definition[0] == "sequence":
+                                            if  segment_definition[4] and segment_definition[4] in TABLES:
+                                                html_string += f'{fs}'+str(get_val(table=segment_definition[4]))
+                                            else:
+                                                if segment_definition[2] == "XAD":
+                                                    html_string += f'{fs}'+str(get_val(segment_definition[2]))           
+                                                elif cardinality[0] == 0:
+                                                    html_string += f'{fs}'
+                                                elif cardinality[0] == 1:                                                
+                                                    html_string += f'{fs}'+str(get_val(segment_definition[2]))                                                           
+                                        else:    
+                                            if segment_nameM != "MdSH" and segment_definition[4] and segment_definition[4] in TABLES:
+                                                    html_string += f'{fs}'+str(get_val(table=segment_definition[4]))
+                                            else:        
+                                                if cardinality[0] == 1:                                                                                         
+                                                    if segment_definition[2] == "ST":
+                                                        html_string += f'{fs}'+str(get_val(segment_definition[2]))    
+                                                elif cardinality[0] == 0:                                                                                                                   
+                                                    html_string += f'{fs}'
+                            
+    html_string += '\r'            
+    segments.append(html_string)
+    html_string=''                          
+                
+#html_string += '</ul>'        
+s = ''
+for x in segments:
+  s += x
+
 message = parse_message(s)
+###################################
+#Send message through Production
+if send == 0:
+    return(message.to_er7())
 
-return(message.to_er7())
+hl7_message = message.to_er7()
+
+# TCP server address and port
+server_address = (host, int(port))  # Example IP and port
+
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    # Connect to the server
+    sock.connect(server_address)
+
+    # Send the HL7 message
+    sock.sendall(hl7_message.encode('utf-8'))
+    # Copy the value to clipboard
+      
+    hl7_message = hl7_message + "RETVAL HL7 message sent successfully!"
+except socket.error as e:
+    hl7_message = hl7_message + "RETVAL"+ f"Socket error occurred: {e}"
+except socket.timeout as e:
+    hl7_message = hl7_message + "RETVAL"+ f"Socket timeout: {e}"
+except AttributeError as e:
+    hl7_message = hl7_message + "RETVAL"+ f"Error in HL7 message construction: {e}"
+except Exception as e:
+    hl7_message = hl7_message + "RETVAL"+ f"An unexpected error occurred: {e}"
+
+finally:
+    # Close the connection
+    sock.close()
+return hl7_message
 }
 
 // Function to validate HL7 Message
@@ -34,6 +278,7 @@ decoded_string = html.unescape(msg)
 # Try to parse and validate the HL7 message
 try:
     message = parser.parse_message(decoded_string)
+    #message.validate()
     return "HL7 Message is valid!"
 except Exception as e:
     return f"Invalid HL7 message: {e}"
@@ -110,6 +355,7 @@ if version in cr.SUPPORTED_LIBRARIES:
     lib = importlib.import_module(module_name)
     MESSAGES = lib.MESSAGES
     message_types = list(MESSAGES.keys())
+    print(message_types)
     if 'ACK' in message_types:
         message_types.remove('ACK')  # Remove 'ACK' from its current position
         message_types.append('ACK')  # Append 'ACK' to the end
@@ -124,12 +370,12 @@ else:
     return ver
 }
 
-ClassMethod SendMessage(msg,ipadd,port) [ Language = python ]
+ClassMethod SendMessage(msgg, ipadd, port) [ Language = python ]
 {
 import socket
 
 # TCP server address and port
-server_address = ('127.0.0.1', 7879)  # Example IP and port
+server_address = (ipadd, int(port))  # Example IP and port
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -139,8 +385,11 @@ try:
     sock.connect(server_address)
 
     # Send the HL7 message
-    sock.sendall(msg.encode('utf-8'))
-
+    msggg = msgg.encode('utf-8')
+    sock.sendall(msggg)
+    ack = sock.recv(1024).decode()
+    return ack
+    #print(msggg)    
     ret = "HL7 message sent successfully!"
 except socket.error as e:
     ret = f"Socket error occurred: {e}"
@@ -155,7 +404,7 @@ finally:
     # Close the connection
     sock.close()
     
-return ret    
+return ret
 }
 
 }

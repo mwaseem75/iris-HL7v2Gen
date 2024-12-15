@@ -1,5 +1,5 @@
-#ARG ARG IMAGE=intersystemsdc/iris-community:latest
 ARG ARG IMAGE=intersystemsdc/irishealth-community:preview
+#ARG ARG IMAGE=intersystemsdc/iris-community:latest
 FROM $IMAGE AS builder
 
 

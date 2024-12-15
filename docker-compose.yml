@@ -10,6 +10,7 @@ services:
       - 32782:1972
       - 32783:52773
       - 32784:53773
+      - 7878:7878
     command: 
       - -a
       - iris session iris -U%SYS '##class(Security.Users).UnExpireUserPasswords("*")'
