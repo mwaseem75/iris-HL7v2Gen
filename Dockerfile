@@ -1,7 +1,6 @@
 ARG IMAGE=intersystemsdc/irishealth-community:preview
 FROM $IMAGE 
 
-
 #WORKDIR /home/irisowner/irisdev
 WORKDIR /opt/irisapp
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
