@@ -8,9 +8,9 @@ on:
 
 env:
   # Change this section according to your needs
-  IMAGE_NAME: irisfhirlab-image
-  SERVICE: irisfhirlab
-  DOMAIN_NAME: irisfhirlab.demo.community.intersystems.com
+  IMAGE_NAME: irishl7v2gen-image
+  SERVICE: irishl7v2gen
+  DOMAIN_NAME: irishl7v2gen.demo.community.intersystems.com
 
   # Leave this section untouched
   PROJECT_ID:   iris-community-demos
@@ -31,7 +31,7 @@ jobs:
     - name: Google Authentication
       uses: google-github-actions/auth@v1.0.0
       with:
-        credentials_json: ${{ secrets.IRISFHIRLAB }}
+        credentials_json: ${{ secrets.IRISHL7V2GEN }}
 
     - name: Get GKE credentials
       uses: google-github-actions/get-gke-credentials@v1.0.1
