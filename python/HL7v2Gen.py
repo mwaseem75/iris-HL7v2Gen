@@ -187,7 +187,7 @@ hl7_message_types = {
     'VXX_V02': 'Response to vaccination query'
 }
 
-
+#segment descriptions
 hl7_segment_names = {
     'MSH': 'Message Header',
     'SFT': 'Software Segment',
