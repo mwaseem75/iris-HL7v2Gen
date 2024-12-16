@@ -425,4 +425,28 @@ finally:
 return ret
 }
 
+/// Description
+ClassMethod TestConnection(host, port) [ Language = python ]
+{
+import socket
+
+# Create a socket object
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+# Set a timeout for the connection (optional)
+sock.settimeout(10)  # Timeout in seconds
+    
+try:
+    # Attempt to connect to the specified host and port
+    sock.connect((host, int(port)))
+    return f"Successfully connected to {host} on port {port}"
+    return True
+except socket.error as e:
+    return f"Failed to connect to {host} on port {port}: {e}"
+    return False
+finally:
+        # Always close the socket after the test
+    sock.close()
+}
+
 }

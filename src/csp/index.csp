@@ -133,6 +133,8 @@
  </style>
 
 <script language="JavaScript">
+let hostName = "localhost";  // Assign default host for TCP/IP settings
+let hostPort = "7878";  // Assign default host for TCP/IP settings
 // Generate HL7 Message based on Version and Message Type
 function GenMessage()
 {
@@ -156,6 +158,62 @@ function GenMessage()
   document.getElementById('hl7Message').focus();
 }
 
+function ConnSettings() {		   
+  let selectElementGen = document.getElementById("hostName"); 	       	       	 		 
+  selectElementGen.value = hostName
+  selectElementGen = document.getElementById("hostPort"); 	       	       	 		 
+  selectElementGen.value = hostPort
+  $('#connModal').modal('show');		 
+}
+
+function TestConnection() {		   
+   var val1 = document.getElementById('hostName').value;
+       	  if (!val1.trim()) {
+       		 alert('Please enter Host Name first.');
+        	 return;
+          }
+		 var val2 = document.getElementById('hostPort').value;
+		 if (!val2.trim()) {
+       		 alert('Please enter Host port first.');
+        	 return;
+          }
+    
+     if (val2 < 1 || val2 > 65535)
+     {
+          alert('Port range is between (1-65535)');
+          return
+     }
+     var connResult =  #server(..TestConnection(val1,val2))#;
+     alert(connResult) 
+}
+
+function saveConnectionSettings() {		   
+   var val1 = document.getElementById('hostName').value;
+       	  if (!val1.trim()) {
+       		 alert('Please enter Host Name first.');
+        	 return;
+          }
+		 var val2 = document.getElementById('hostPort').value;
+		 if (!val2.trim()) {
+       		 alert('Please enter Host port first.');
+        	 return;
+          }
+     if (val1 === hostName && val2 === hostPort) {
+          alert('Please modify the values first.');
+          return
+     }
+     if (val2 < 1 || val2 > 65535)
+     {
+          alert('Port range is between (1-65535)');
+          return
+     }   
+		 hostName = val1
+     hostPort = val2
+		 $('#connModal').modal('hide');
+}
+
+
+
 function SendMessage()
 {
   
@@ -169,7 +227,7 @@ function SendMessage()
         return; // Stop further execution
         }
     
-  var getMessage =  #server(..GenMessage(mtype,ver,1,"localhost","7878"))#; 
+  var getMessage =  #server(..GenMessage(mtype,ver,1,hostName,hostPort))#; 
   
   var selectElementGen = document.getElementById("hl7Message"); 
   let hl7msg = getMessage.split("RETVAL")[0].trim(); // Everything before "RETVAL"
@@ -368,6 +426,9 @@ function LoadEvent()
                       <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 10px" onclick="GenMessage()"> <i class="bi bi-pencil-square"></i> Generate Test Message</button>
                       <button type="button" class="btn btn-primary" style="margin: 5px 5px 5px 5px" onclick="ValMessage()"> <i class="bi bi-magic"></i> Validate Message</button>
                       <button type="button" class="btn btn-primary" style="margin: 5px 0px 5px 0px" onclick="SendMessage()"> <i class="bi bi-send-check"></i> Send Message To Production</button>
+                      <button type="button" class="btn btn-primary" style="margin: 5px 5px 5px 5px" onclick="ConnSettings()"> <i class="bi bi-gear-wide-connected"></i> Connection Settings</button>
+                      
+                      
                       </div>
 
                       <textarea readonly id="hl7MessageB" class="form-control message-box " rows="8"></textarea>
@@ -398,6 +459,40 @@ function LoadEvent()
     </footer>
 </div> <!-- Main container-->
 
+<!-- Server dialog -->
+<div class="modal fade" id="connModal" tabindex="-1" role="dialog" aria-labelledby="connModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serverModalLabel">TCP/IP Connection Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+    <!-- First String Field -->
+    <div class="form-group">
+      <label for="field1">*Host Name:</label>
+      <input type="text" class="form-control" id="hostName" required>
+    </div>
+
+    <!-- Second String Field -->
+    <div class="form-group">
+      <label for="field2">*Port:</label>
+      <input type="number" class="form-control" id="hostPort" required min="1" max="65535">
+    </div>
+    
+  </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id = "addbtn" class="btn btn-primary" onclick="saveConnectionSettings()">Save Settings</button>        
+        <button type="button" id = "testbtn" class="btn btn-primary" onclick="TestConnection()">Test Connection</button>        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+      </div>
+    </div>
+  </div>
+</div>
 
         <!--   Core JS Files   -->
     <script src="resources/js/jquery.min.js"></script>
