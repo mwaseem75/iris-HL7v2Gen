@@ -55,7 +55,8 @@ Navigate to [http://localhost:32783/csp/HL7v2Gen/index.csp](http://localhost:327
 
 ### Generate HL7 Message
 Select a message type from the dropdown list and click the "Generate Test Message" button
-![image](https://github.com/user-attachments/assets/a413e485-1a04-4cb1-a1ed-40e0212f228a)
+![image](https://github.com/user-attachments/assets/16180f09-6431-4ce9-a0cf-be5b0a9ab120)
+
 
 The application will generate a test message
 ![image](https://github.com/user-attachments/assets/bac805cb-4962-4f41-bd70-ec30ce54b98f)
