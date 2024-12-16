@@ -24,7 +24,7 @@ mtype = mtype
 version = ver
 #Crrently only support Ver 2.5  
 if version != '2.5':
-    return "Crrently only support Ver 2.5"
+    return "Currently only support Ver 2.5"
 if version in cr.SUPPORTED_LIBRARIES:      
     message_with_descriptions = []
     module_name = cr.SUPPORTED_LIBRARIES[version]
