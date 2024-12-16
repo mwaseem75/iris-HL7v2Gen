@@ -6,23 +6,26 @@ IRIS-HL7v2Gen is a CSP application designed to dynamically generate HL7 test mes
 ## Application Layout
 ![image](https://github.com/user-attachments/assets/4eaa718f-88d6-4afd-8673-1e70f88a633f)
 
+
+## Features
+* **Dynamic HL7 Message Generation:** Instantly create HL7 messages for a range of message types, facilitating comprehensive testing.
+* **Message Structure Exploration:** Visualize the structure of generated messages based on HL7 specifications.
+* **Message Validation:** Validate messages against HL7 standards to ensure compliance.
+* **TCP/IP Communication:** Easily transmit messages to production using TCP/IP settings.
+* **Broad Message Type Support:** Supports 184 different HL7 message types, ensuring versatility for various healthcare integration needs.
+* **ClassMethod:** Generate a Test Message by Invoking a Class Method
+* **Version Support:** Currently Supports HL7 Version 2.5
+
+
 ## Online Demo
 https://irishl7v2gen.demo.community.intersystems.com/csp/hl7v2gen/index.csp by using SuperUser | SYS
 
-## Features
-* Dynamically Generate HL7 Test Messages
-* Validate HL7 Messages
-* Dynamically Construct HL7 Message Type Structures
-* Send Messages via TCP/IP
-* Generate a Test Message by Invoking a Class Method
-* Currently Supports HL7 Version 2.5
-* Generate Test Messages for 184 Message Types
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
 
-## Installation 
 
+## Installation 
 ### Docker (e.g. for dev purposes)
 
 Clone/git pull the repo into any local directory
@@ -58,14 +61,14 @@ The application will generate a test message
 ![image](https://github.com/user-attachments/assets/bac805cb-4962-4f41-bd70-ec30ce54b98f)
 
 
-### Validate HL7 Message
-Click the "Validate Message" button
-![image](https://github.com/user-attachments/assets/490798e7-b35e-4c13-b5af-55843d5a348c)
-
-
 ### Explore the Structure of the Message
 The application will construct the message structure based on HL7 specifications
 ![image](https://github.com/user-attachments/assets/e167c659-abb7-4d5a-adc8-482af6e74e4a)
+
+
+### Validate HL7 Message
+Click the "Validate Message" button
+![image](https://github.com/user-attachments/assets/490798e7-b35e-4c13-b5af-55843d5a348c)
 
 
 ### Send Message to Production
