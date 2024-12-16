@@ -75,6 +75,11 @@ Select business service "HL7TcpService" and Open message viewer
 ![image](https://github.com/user-attachments/assets/b1c6c8bc-c6cd-4697-9e80-4b046081a214)
 ![image](https://github.com/user-attachments/assets/980b79ba-76a0-47c5-b0ee-53b80103bd0e)
 
+### TCP/IP connection settings
+Click on 'Connection Settings' to open the connection settings dialog, where you can define and test the connection
+![image](https://github.com/user-attachments/assets/810da1d7-55d4-490a-bed0-94efd9cb38ef)
+ 
+
 ### Generate a Test Message by Invoking a Class Method
 Connect to the IRIS Terminal, execute the GenMessage function of the dc.HL7v2Gen class, and pass the desired HL7 message type
 ```
