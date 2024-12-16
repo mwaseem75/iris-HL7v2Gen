@@ -1,5 +1,5 @@
 # Summary
-IRIS-HL7v2Gen is a web application designed to generate HL7 test messages, validate them against HL7 specifications, display the message structure hierarchy, and transmit the messages to production via TCP/IP
+IRIS-HL7v2Gen is a CSP application designed to dynamically generate HL7 test messages, validate them against HL7 specifications, display their message structure hierarchy, and transmit the messages to production via TCP/IP.
 
 [![one](https://img.shields.io/badge/Platform-InterSystems%20IRIS-blue)](https://www.intersystems.com/data-platform/) [![one](https://img.shields.io/badge/WebFrameWork-CSP-Orange)](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=GCSP) [![one](https://img.shields.io/badge/Interoperability-HL7%20V2-yellow)](https://v2.hl7.org/conformance/HL7v2_Conformance_Methodology_R1_O1_Ballot_Revised_D9_-_September_2019_Introduction.html) [![one](https://img.shields.io/badge/Python%20Library-HL7apy-Maroon)](https://crs4.github.io/hl7apy/index.html) [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)]() [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mwaseem75/iris-HL7v2Gen/blob/main/LICENSE)
 
@@ -7,9 +7,9 @@ IRIS-HL7v2Gen is a web application designed to generate HL7 test messages, valid
 ![image](https://github.com/user-attachments/assets/1d18bb0c-bf27-4090-85e8-de0d309442b8)
 
 ## Features
-* Generate HL7 Test Messages
+* Dynamically Generate HL7 Test Messages
 * Validate HL7 Messages
-* Construct HL7 Message Type Structures
+* Dynamically Construct HL7 Message Type Structures
 * Send Messages via TCP/IP
 * Generate a Test Message by Invoking a Class Method
 * Currently Supports HL7 Version 2.5
