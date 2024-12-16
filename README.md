@@ -13,7 +13,7 @@ IRIS-HL7v2Gen is a CSP application designed to dynamically generate HL7 test mes
 * Send Messages via TCP/IP
 * Generate a Test Message by Invoking a Class Method
 * Currently Supports HL7 Version 2.5
-* Generate Test Messages for 205 Message Types
+* Generate Test Messages for 184 Message Types
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
