@@ -64,7 +64,7 @@ The application will generate a test message
 
 ### Explore the Structure of the Message
 The application will construct the message structure based on HL7 specifications
-![image](https://github.com/user-attachments/assets/e167c659-abb7-4d5a-adc8-482af6e74e4a)
+![image](https://github.com/user-attachments/assets/8e346f74-f2b0-44ab-a7bd-6c2c749241d6)
 
 
 ### Validate HL7 Message
