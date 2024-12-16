@@ -4,8 +4,7 @@ IRIS-HL7v2Gen is a CSP application designed to dynamically generate HL7 test mes
 [![one](https://img.shields.io/badge/Platform-InterSystems%20IRIS-blue)](https://www.intersystems.com/data-platform/) [![one](https://img.shields.io/badge/WebFrameWork-CSP-Orange)](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=GCSP) [![one](https://img.shields.io/badge/Interoperability-HL7%20V2-yellow)](https://v2.hl7.org/conformance/HL7v2_Conformance_Methodology_R1_O1_Ballot_Revised_D9_-_September_2019_Introduction.html) [![one](https://img.shields.io/badge/Python%20Library-HL7apy-Maroon)](https://crs4.github.io/hl7apy/index.html) [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)]() [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mwaseem75/iris-HL7v2Gen/blob/main/LICENSE)
 
 ## Application Layout
-![image](https://github.com/user-attachments/assets/290912d1-0141-47f3-b615-3694329147ed)
-
+![image](https://github.com/user-attachments/assets/4eaa718f-88d6-4afd-8673-1e70f88a633f)
 
 ## Features
 * Dynamically Generate HL7 Test Messages
