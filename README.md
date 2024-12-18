@@ -94,5 +94,12 @@ write mes
 ```
 ![image](https://github.com/user-attachments/assets/997c239e-618c-4a94-8e09-aa91306dd334)
 
+#### Invoke the function outlined below to retrieve the supported message types
+```
+do ##class(dc.HL7v2Gen).ListMessageTypes()
+```
+![image](https://github.com/user-attachments/assets/e6bf1ad0-9ec4-4afb-af85-ecaae797ce1e)
+
+
 
 Thanks
