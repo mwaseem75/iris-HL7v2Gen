@@ -52,7 +52,6 @@
 }
 
 
-
   app-right-align {
     text-align: right;
     border: 1px solid #ddd; /* Optional: Add border for better visualization */
@@ -130,6 +129,11 @@
   background:white !important;
   color:black !important;
 }
+
+.table td, .table th {    
+    height: 40px;
+   }
+
  </style>
 
 <script language="JavaScript">
@@ -157,7 +161,7 @@ function GenMessage()
   this.blur()
   document.getElementById('hl7Message').focus();
 }
-
+// Function to show connection setting
 function ConnSettings() {		   
   let selectElementGen = document.getElementById("hostName"); 	       	       	 		 
   selectElementGen.value = hostName
@@ -165,7 +169,7 @@ function ConnSettings() {
   selectElementGen.value = hostPort
   $('#connModal').modal('show');		 
 }
-
+// Function used for connection testing 
 function TestConnection() {		   
    var val1 = document.getElementById('hostName').value;
        	  if (!val1.trim()) {
@@ -187,6 +191,7 @@ function TestConnection() {
      alert(connResult) 
 }
 
+// Save conection settings 
 function saveConnectionSettings() {		   
    var val1 = document.getElementById('hostName').value;
        	  if (!val1.trim()) {
@@ -212,8 +217,7 @@ function saveConnectionSettings() {
 		 $('#connModal').modal('hide');
 }
 
-
-
+//Send message to TCP/IP client
 function SendMessage()
 {
   
@@ -258,78 +262,82 @@ function ValMessage()
 // Get HL7 Versions
 function LoadEvent()
 {
-     
-   var hl7VersionSelect = document.getElementById("hl7Version");
-   var hl7MessageType = document.getElementById("messageType");
-   
+  var hl7VersionSelect = document.getElementById("hl7Version");
+  var hl7MessageType = document.getElementById("messageType");   
 // Get the selected option value
    var vers = hl7VersionSelect.value;
    vers = hl7VersionSelect.value; // Update the value when the selection changes     
-       var res =  #server(..GetMessageTypes(vers))#; 
-       var arr = res.split('|');    
-       var selectElement = document.getElementById("messageType"); 
-       selectElement.innerHTML = '';
-       arr.forEach(function(item) {
-                // Create a new option element
-                var option = document.createElement("option");
-                option.value = item; // Set the value of the option
-                option.textContent = item; // Set the text content of the option                
-                // Set default selected value to "ADT_A01"
-                //if (item === "ADT_A01-Admit/Visit Notification") {
-                //    option.selected = true; // Set this option as selected
-                //}
-                //alert(option)
-                // Append the option to the select element
-                selectElement.appendChild(option);
-            }); 
-       document.getElementById("messageType").value = ""           
-   
+   var res =  #server(..GetMessageTypes(vers))#; 
+   var arr = res.split('|');    
+   var selectElement = document.getElementById("messageType"); 
+   selectElement.innerHTML = '';
+   arr.forEach(function(item) {
+            // Create a new option element
+            var option = document.createElement("option");
+            option.value = item; // Set the value of the option
+            option.textContent = item; // Set the text content of the option                
+            // Append the option to the select element
+            selectElement.appendChild(option);
+   }); 
+   document.getElementById("messageType").value = ""        
    // Get Message type upon version number modification
    hl7VersionSelect.addEventListener("change", function() {
-       vers = hl7VersionSelect.value; // Update the value when the selection changes     
-       var res =  #server(..GetMessageTypes(vers))#; 
-       var arr = res.split('|');    
-       var selectElement = document.getElementById("messageType"); 
-       // Reset Message segments
-       const ul = document.getElementById('myUL');        
-       ul.innerHTML = '';
-       selectElement.innerHTML = '';
-       arr.forEach(function(item) {
+   vers = hl7VersionSelect.value; // Update the value when the selection changes     
+   var res =  #server(..GetMessageTypes(vers))#; 
+   var arr = res.split('|');    
+   var selectElement = document.getElementById("messageType"); 
+   // Reset Message segments
+   const ul = document.getElementById('myUL');        
+   ul.innerHTML = '';
+   selectElement.innerHTML = '';
+   arr.forEach(function(item) {
                 // Create a new option element
                 var option = document.createElement("option");
                 option.value = item; // Set the value of the option
                 option.textContent = item; // Set the text content of the option
-
-                // Set default selected value to "ADT_A01"
-                //if (item === "ADT_A01-Admit/Visit Notification") {
-                //    option.selected = true; // Set this option as selected
-                //}
-
                 // Append the option to the select element
                 selectElement.appendChild(option);
-            });
-         document.getElementById("messageType").value = ""            
+    });
+    document.getElementById("messageType").value = ""            
    });
    
-
    hl7MessageType.addEventListener("change", function() {
        mtype = hl7MessageType.value; // Update the value when the selection changes     
        mtype = mtype.split('-')[0]
        
-       var res =  #server(..GetHL7Structure(mtype))#;        
-       const ul = document.getElementById('myUL');        
-       ul.innerHTML = '';
-       ul.innerHTML = res;
+   var res =  #server(..GetHL7Structure(mtype))#;        
+   const ul = document.getElementById('myUL');        
+   ul.innerHTML = '';
+   navigator.clipboard.writeText(res)
+   ul.innerHTML = res;
 
-       var toggler = document.getElementsByClassName("caret");
+  // Use event delegation by attaching the event to a parent element
+    ul.addEventListener('click', function(event) {
+      // Check if the clicked element is the icon we want
+      if (event.target && event.target.matches('i.bi.bi-table')) {
+        // Get the value stored in the data-value attribute
+        const tblID = event.target.getAttribute('data-value');         
+        // Find the index of the '!'
+        var tblData =  #server(..GetTablesData(tblID))#;      
+        var div = document.getElementById("tblDiv");
+        var heading = document.getElementById("tblModalLabel");
+        // Assign a new value to the <h6> element
+        heading.innerText = tblID;
+        // Set HTML content inside the div
+        div.innerHTML = tblData;
+        // Display the stored value in the output div
+        $('#tblModal').modal('show');		   
+      }
+    });
+
+   var toggler = document.getElementsByClassName("caret");
    var i;
    for (i = 0; i < toggler.length; i++) {
      toggler[i].addEventListener("click", function() {
        this.parentElement.querySelector(".nested").classList.toggle("active");
        this.classList.toggle("caret-down");
      });
-   }      
-       
+   }   
    });
    
    //HL7 structure treeview
@@ -489,6 +497,27 @@ function LoadEvent()
         <button type="button" id = "addbtn" class="btn btn-primary" onclick="saveConnectionSettings()">Save Settings</button>        
         <button type="button" id = "testbtn" class="btn btn-primary" onclick="TestConnection()">Test Connection</button>        
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Server dialog -->
+<div class="modal fade" id="tblModal" tabindex="-1" role="dialog" aria-labelledby="tblModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="tblModalLabel"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding-top:0px">
+          <div id = "tblDiv">
+          </div>
+      </div>             
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>        
       </div>
     </div>
   </div>
