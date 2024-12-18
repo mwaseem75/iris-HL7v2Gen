@@ -316,7 +316,7 @@ function LoadEvent()
        mtype = hl7MessageType.value; // Update the value when the selection changes     
        mtype = mtype.split('-')[0]
        
-       var res =  #server(..GetHL7Structure(mtype))#; 
+       var res =  #server(..GetHL7Structure(mtype))#;        
        const ul = document.getElementById('myUL');        
        ul.innerHTML = '';
        ul.innerHTML = res;
