@@ -308,9 +308,8 @@ function LoadEvent()
    var res =  #server(..GetHL7Structure(mtype))#;        
    const ul = document.getElementById('myUL');        
    ul.innerHTML = '';
-   navigator.clipboard.writeText(res)
    ul.innerHTML = res;
-
+   
   // Use event delegation by attaching the event to a parent element
     ul.addEventListener('click', function(event) {
       // Check if the clicked element is the icon we want
@@ -415,7 +414,7 @@ function LoadEvent()
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header app-bg-color" style="padding:0.5rem; margin-left: 0px;">                                    
                         <!-- /.widget-user-image -->
-                        <h6 class="text-center font-weight-bold card-title"><i class="bi bi-bar-chart-steps"></i> HL7 Message Structure</h6>
+                        <h6 id = "MStrTitle" class="text-center font-weight-bold card-title"><i class="bi bi-bar-chart-steps"></i> HL7 Message Structure</h6>
                     </div>                            
                   
                     <ul id="myUL" style="margin-left:-35px">                    
