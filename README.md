@@ -10,6 +10,7 @@ IRIS-HL7v2Gen is a CSP application designed to dynamically generate HL7 test mes
 ## Features
 * **Dynamic HL7 Message Generation:** Instantly create HL7 messages for a range of message types, facilitating comprehensive testing.
 * **Message Structure Exploration:** Visualize the structure of generated messages based on HL7 specifications.
+* **Value Set Visualization** View predefined sets of allowable coded values for specific fields.
 * **Message Validation:** Validate messages against HL7 standards to ensure compliance.
 * **TCP/IP Communication:** Easily transmit messages to production using TCP/IP settings.
 * **Broad Message Type Support:** Supports 184 different HL7 message types, ensuring versatility for various healthcare integration needs.
@@ -54,6 +55,10 @@ Navigate to [http://localhost:32783/csp/HL7v2Gen/index.csp](http://localhost:327
 
 
 ### Generate HL7 Message
+The core functionality of IRIS-HL7v2Gen is its ability to dynamically generate HL7 test messages. Users can select from a list of 184 message types, ranging from ADT (Admit, Discharge, Transfer) messages to ORM (Order Message) and ORU (Observation Result) messages. This dynamic message generation allows developers and testers to simulate a wide array of healthcare data exchanges and test their integrations.
+
+The application’s interface is designed for simplicity, allowing users to select a message type from a dropdown list, click a button, and immediately generate a test message. This feature is valuable for quickly creating realistic data exchanges that can be used to test systems, troubleshoot errors, and ensure compliance with HL7 standards.
+
 Select a message type from the dropdown list and click the "Generate Test Message" button
 ![image](https://github.com/user-attachments/assets/16180f09-6431-4ce9-a0cf-be5b0a9ab120)
 
@@ -63,12 +68,20 @@ The application will generate a test message
 
 
 ### Explore the Structure of the Message
-The application will construct the message structure based on HL7 specifications
+HL7 messages can be complex, containing multiple segments, fields, and components. Understanding the structure of these messages is key to ensuring that data is transmitted accurately. IRIS-HL7v2Gen provides an intuitive feature that allows users to explore the structure of the generated message. This feature visualizes the hierarchical structure of the HL7 message, making it easier to understand how different parts of the message relate to each other.
+
+By providing this level of insight, the application helps users identify any structural issues within the message and make necessary adjustments before transmission.
+
+Upon selecting the Message Type, the application will construct the message structure based on HL7 specifications.
 ![image](https://github.com/user-attachments/assets/8e346f74-f2b0-44ab-a7bd-6c2c749241d6)
+
+### Value Set Visualization
+This feature enhances message profiling by displaying field value sets. It allows users to view predefined sets of allowable coded values for each field within the message profile, ensuring that data is consistent and standardized according to HL7 v2 specifications. By binding fields to specific value sets, the application helps users create precise, compliant message definitions, reducing optionality and improving interoperability between healthcare systems.
 
 
 ### Validate HL7 Message
-Click the "Validate Message" button
+Once a test message has been generated, the application provides a built-in message validation feature. Validating HL7 messages is crucial to ensure they conform to the HL7 standards, preventing issues during real-world exchanges. 
+Click the "Validate Message" button to validate the message
 ![image](https://github.com/user-attachments/assets/490798e7-b35e-4c13-b5af-55843d5a348c)
 
 
