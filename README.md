@@ -77,6 +77,7 @@ Upon selecting the Message Type, the application will construct the message stru
 
 ### Value Set Visualization
 This feature enhances message profiling by displaying field value sets. It allows users to view predefined sets of allowable coded values for each field within the message profile, ensuring that data is consistent and standardized according to HL7 v2 specifications. By binding fields to specific value sets, the application helps users create precise, compliant message definitions, reducing optionality and improving interoperability between healthcare systems.
+![image](https://github.com/user-attachments/assets/2e47d3b3-98a7-4089-8933-30480a980763)
 
 
 ### Validate HL7 Message
