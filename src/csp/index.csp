@@ -315,13 +315,19 @@ function LoadEvent()
       // Check if the clicked element is the icon we want
       if (event.target && event.target.matches('i.bi.bi-table')) {
         // Get the value stored in the data-value attribute
-        const tblID = event.target.getAttribute('data-value');         
+        const tblID = event.target.getAttribute('data-value'); 
+        //alert(tblID)       
+        //str.split('!')[0]; 
         // Find the index of the '!'
-        var tblData =  #server(..GetTablesData(tblID))#;      
+        var tblData =  #server(..GetTablesData(tblID.split('!')[0]))#;      
         var div = document.getElementById("tblDiv");
         var heading = document.getElementById("tblModalLabel");
         // Assign a new value to the <h6> element
-        heading.innerText = tblID;
+        let tblDesc = tblID.split('!')[1].replace(/_/g, ' ');    
+        tblDesc = tblDesc.split(' ')  // Split the sentence into words
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())  // Capitalize first letter of each word
+        .join(' ');  // Join the words back into a sentence
+        heading.innerText = tblID.split('!')[0] + " - " + tblDesc;
         // Set HTML content inside the div
         div.innerHTML = tblData;
         // Display the stored value in the output div
@@ -506,7 +512,7 @@ function LoadEvent()
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="tblModalLabel"></h4>
+        <h5 class="modal-title" id="tblModalLabel"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

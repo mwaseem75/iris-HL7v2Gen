@@ -377,10 +377,16 @@ ClassMethod GetSegmentDetails(htmlString, segName, cardinality, segmentDefinitio
                 sname = segment_name+" - "+segment_definition[3].replace("_", " ").title()+" ("+segment_definition[2]+")"
                 #COMPONENT
                 if segment_definition[0] == "sequence":
-                    if cardinality[0] == 1:
-                        htmlString += f'<li><span class="caret">{sname}</span>\n'
-                    else:    
-                        htmlString += f'<li><span class="caret dis">{sname}</span>\n'
+                    if segment_definition[4] and segment_definition[4] in TABLES:
+                        if cardinality[0] == 1:
+                            htmlString += f'<li><span class="caret" >{sname} <i class="bi bi-table" data-value={segment_definition[4]+"!"+segment_definition[3]}></i></li>\n'
+                        else:    
+                            htmlString += f'<li><span class="caret dis" >{sname} <i class="bi bi-table" data-value={segment_definition[4]+"!"+segment_definition[3]}></i></li>\n'
+                    else:                    
+                        if cardinality[0] == 1:
+                            htmlString += f'<li><span class="caret">{sname}</span>\n'
+                        else:    
+                            htmlString += f'<li><span class="caret dis">{sname}</span>\n'
                     htmlString += f'<ul class="nested">\n'    
                     segmentsC = segment_definition[1]       
                     for counter,elementC in enumerate(segmentsC, start=1):
@@ -389,9 +395,9 @@ ClassMethod GetSegmentDetails(htmlString, segName, cardinality, segmentDefinitio
                         if segment_definition[4] and segment_definition[4] in TABLES:
                             #sname += segment_definition[4]
                             if cardinality[0] == 1:
-                                htmlString += f'<li><span class="caret-box" >{sname} <i class="bi bi-table" data-value={segment_definition[4]}></i></li>\n'
+                                htmlString += f'<li><span class="caret-box" >{sname} <i class="bi bi-table" data-value={segment_definition[4]+"!"+segment_definition[3]}></i></li>\n'
                             else:
-                                htmlString += f'<li><span class="caret-box dis">{sname} <i class="bi bi-table" data-value={segment_definition[4]}></i></li>\n'
+                                htmlString += f'<li><span class="caret-box dis">{sname} <i class="bi bi-table" data-value={segment_definition[4]+"!"+segment_definition[3]}></i></li>\n'
                         else:   
                             if cardinality[0] == 1:
                                 htmlString += f'<li><span class="caret-box">{sname}</i></li>\n'
@@ -402,9 +408,9 @@ ClassMethod GetSegmentDetails(htmlString, segName, cardinality, segmentDefinitio
                     if segment_definition[4] and segment_definition[4] in TABLES:
                         #sname += segment_definition[4]
                         if cardinality[0] == 1:    
-                            htmlString += f'<li><span class="caret-box">{sname} <i class="bi bi-table" data-value={segment_definition[4]}></i></li>\n'      
+                            htmlString += f'<li><span class="caret-box">{sname} <i class="bi bi-table" data-value={segment_definition[4]+"!"+segment_definition[3]}></i></li>\n'      
                         else:
-                            htmlString += f'<li><span class="caret-box dis">{sname} <i class="bi bi-table" data-value={segment_definition[4]}></i></li>\n'  
+                            htmlString += f'<li><span class="caret-box dis">{sname} <i class="bi bi-table" data-value={segment_definition[4]+"!"+segment_definition[3]}></i></li>\n'  
                     else:
                         if cardinality[0] == 1:    
                             htmlString += f'<li><span class="caret-box">{sname}</li>\n'      
