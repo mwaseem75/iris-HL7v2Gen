@@ -7,9 +7,9 @@ services:
     restart: always
 #   command: --check-caps false
     ports: 
-      - 32782:32782
-      - 32783:32783
-      - 32784:32784
+      - 32782:1972
+      - 32783:52773
+      - 32784:53773
       - 7878:7878
     command: 
       - -a
