@@ -87,7 +87,7 @@ Click on 'Connection Settings' to open the connection settings dialog, where you
  
 
 ### Generate a Test Message by Invoking a Class Method
-Connect to the IRIS Terminal, execute the GenMessage function of the dc.HL7v2Gen class, and pass the desired HL7 message type
+Connect to the IRIS Terminal, and execute the GenMessage function of the dc.HL7v2Gen class, and pass the desired HL7 message type
 ```
 set mes = ##class(dc.HL7v2Gen).GenMessage("ADT_A01")
 write mes
