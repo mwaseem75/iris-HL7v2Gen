@@ -1,4 +1,4 @@
-ARG  IMAGE=intersystemsdc/iris-community:preview
+ARG  IMAGE=intersystemsdc/irishealth-community:preview
 FROM $IMAGE AS builder
 
 
