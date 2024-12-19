@@ -8,9 +8,9 @@ on:
 
 env:
   # Change this section according to your needs
-  IMAGE_NAME: irisideascon-image
-  SERVICE: irisideascon
-  DOMAIN_NAME: irisideascon.demo.community.intersystems.com
+  IMAGE_NAME: irishl7v2gen-image
+  SERVICE: irishl7v2gen
+  DOMAIN_NAME: irishl7v2gen.demo.community.intersystems.com
 
   # Leave this section untouched
   PROJECT_ID:   iris-community-demos
