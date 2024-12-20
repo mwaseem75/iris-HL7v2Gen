@@ -13,7 +13,7 @@ jobs:
     with:
       # Replace the name: parameter below to have your application deployed at
       # https://project-name.demo.community.intersystems.com/
-      name: hl7v2gen
+      name: iris-hl7gen
     secrets:
       # Do not forget to add Secret in GitHub Repoository Settings with name SERVICE_ACCOUNT_KEY
       SERVICE_ACCOUNT_KEY: ${{ secrets.IRISHL7V2GEN }}
