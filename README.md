@@ -18,10 +18,6 @@ IRIS-HL7v2Gen is a CSP application designed to dynamically generate HL7 test mes
 * **Version Support:** Currently Supports HL7 Version 2.5
 
 
-## Online Demo
-https://irishl7v2gen.demo.community.intersystems.com/csp/hl7v2gen/index.csp by using SuperUser | SYS
-
-
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
 
